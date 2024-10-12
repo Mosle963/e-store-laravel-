@@ -27,7 +27,7 @@ class OrdersTableSeeder extends Seeder
         DB::table('orders')->insert([
             'order_date'=>Carbon::create(2020, 8, 14),
             'order_number'=>'8',
-            'customer_id'=>1,
+            'customer_id'=>2,
             'total_amount'=>800,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()

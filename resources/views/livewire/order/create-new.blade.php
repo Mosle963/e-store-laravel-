@@ -1,20 +1,8 @@
-<x-slot:h1>Create Order</x-slot>
+<x-slot:h1>
+        Create Order
+</x-slot>
 <x-slot:extra_style>
     <style>
-        .form-group {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        .form-group .form-label {
-            margin-right: 10px;
-        }
-
-        .form-group select,
-        .form-group input {
-            flex: 1;
-        }
-
         .container-card {
             background-color: #f8f9fa; /* Light background */
             padding: 20px;
@@ -156,7 +144,8 @@
             <tr>
                 <td><strong>Total:</strong></td>
                 <td><strong>{{ $total }}</strong></td> <!-- Assuming $totalPrice is calculated in the backend -->
-                <td colspan="2"></td> <!-- Empty columns to align total price -->
+                <td colspan="1"></td>
+                <td><button wire:click="clearCart" class="btn btn-info">Reset</bytton>
             </tr>
         </tfoot>
         </table>
@@ -168,5 +157,3 @@
         <button class="btn btn-secondary btn-lg" wire:click="closeOrder">Close</button>
     </div>
 </div>
-<x-slot:extra_script>
-</x-slot>

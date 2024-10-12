@@ -29,12 +29,16 @@ class CreateNew extends Component
     {
         $this->products = Product::all();
         $this->customers = Customer::all();
-    }
-    public function boot(){
         $this->updateCart();
+    }
+    public function closeOrder()
+    {
+        Cart::clear();
+        return redirect()->route('order_list');
     }
     public function save()
     {
+        $this->updateCart();
 
         $validated = $this->validate([
             'customer_id' => 'required|numeric',
@@ -50,6 +54,7 @@ class CreateNew extends Component
         foreach($this->content as $key=>$value){
             Order_item::create([
                 'product_id'=>intval($key),
+                'product_name'=>$value['name'],
                 'order_id'=>$new_order->id,
                 'unit_price'=>intval($value['price']),
                 'quantity'=>intval($value['quantity'])

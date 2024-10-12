@@ -16,6 +16,7 @@ class Order_itemsTableSeeder extends Seeder
         DB::table('order_items')->insert([
             'order_id'=>1,
             'product_id'=>4,
+            'product_name'=>'Biscuit',
             'unit_price'=>500,
             'quantity'=>2,
             'created_at' => Carbon::now(),
@@ -25,6 +26,7 @@ class Order_itemsTableSeeder extends Seeder
         DB::table('order_items')->insert([
             'order_id'=>2,
             'product_id'=>3,
+            'product_name'=>'Sugar',
             'unit_price'=>250,
             'quantity'=>2,
             'created_at' => Carbon::now(),
@@ -34,6 +36,7 @@ class Order_itemsTableSeeder extends Seeder
         DB::table('order_items')->insert([
             'order_id'=>2,
             'product_id'=>2,
+            'product_name'=>'Rice',
             'unit_price'=>300,
             'quantity'=>1,
             'created_at' => Carbon::now(),

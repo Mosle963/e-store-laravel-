@@ -7,10 +7,8 @@ use Illuminate\Session\SessionManager;
 
 class CartService {
     const MINIMUM_QUANTITY = 1;
-    const DEFAULT_INSTANCE = 'shopping-cart';
 
     protected $session;
-    protected $instance;
 
     /**
      * Constructs a new cart object.
@@ -32,11 +30,11 @@ class CartService {
      * @param array $options
      * @return void
      */
-    public function add($id, $name, $price, $quantity): void
+    public function add($id, $name, $price, $quantity, $session_name = 'shopping-cart'): void
     {
-        $cartItem = $this->createCartItem($name, $price, $quantity);
+        $cartItem = $this->createCartItem($name, $price, $quantity,$session_name);
 
-        $content = $this->getContent();
+        $content = $this->getContent($session_name);
 
         if ($content->has($id)) {
             $cartItem->put('quantity', $content->get($id)->get('quantity') + $quantity);
@@ -44,7 +42,7 @@ class CartService {
 
         $content->put($id, $cartItem);
 
-        $this->session->put(self::DEFAULT_INSTANCE, $content);
+        $this->session->put($session_name, $content);
     }
 
     /**
@@ -54,9 +52,9 @@ class CartService {
      * @param string $action
      * @return void
      */
-    public function update(string $id, string $action): void
+    public function update(string $id, string $action, $session_name= 'shopping-cart' ): void
     {
-        $content = $this->getContent();
+        $content = $this->getContent($session_name);
 
         if ($content->has($id)) {
             $cartItem = $content->get($id);
@@ -78,7 +76,7 @@ class CartService {
 
             $content->put($id, $cartItem);
 
-            $this->session->put(self::DEFAULT_INSTANCE, $content);
+            $this->session->put($session_name, $content);
         }
     }
 
@@ -88,12 +86,12 @@ class CartService {
      * @param string $id
      * @return void
      */
-    public function remove(string $id): void
+    public function remove(string $id,$session_name= 'shopping-cart'): void
     {
-        $content = $this->getContent();
+        $content = $this->getContent($session_name);
 
         if ($content->has($id)) {
-            $this->session->put(self::DEFAULT_INSTANCE, $content->except($id));
+            $this->session->put($session_name, $content->except($id));
         }
     }
 
@@ -102,9 +100,9 @@ class CartService {
      *
      * @return void
      */
-    public function clear(): void
+    public function clear($session_name= 'shopping-cart'): void
     {
-        $this->session->forget(self::DEFAULT_INSTANCE);
+        $this->session->forget($session_name);
     }
 
     /**
@@ -112,9 +110,9 @@ class CartService {
      *
      * @return Illuminate\Support\Collection
      */
-    public function content(): Collection
+    public function content($session_name= 'shopping-cart'): Collection
     {
-        return is_null($this->session->get(self::DEFAULT_INSTANCE)) ? collect([]) : $this->session->get(self::DEFAULT_INSTANCE);
+        return is_null($this->session->get($session_name)) ? collect([]) : $this->session->get($session_name);
     }
 
     /**
@@ -122,9 +120,9 @@ class CartService {
      *
      * @return string
      */
-    public function total(): string
+    public function total($session_name= 'shopping-cart'): string
     {
-        $content = $this->getContent();
+        $content = $this->getContent($session_name);
 
         $total = $content->reduce(function ($total, $item) {
             return $total += $item->get('price') * $item->get('quantity');
@@ -141,9 +139,9 @@ class CartService {
      *
      * @return Illuminate\Support\Collection
      */
-    protected function getContent(): Collection
+    protected function getContent($session_name= 'shopping-cart'): Collection
     {
-        return $this->session->has(self::DEFAULT_INSTANCE) ? $this->session->get(self::DEFAULT_INSTANCE) : collect([]);
+        return $this->session->has($session_name) ? $this->session->get($session_name) : collect([]);
     }
 
     /**
@@ -155,7 +153,7 @@ class CartService {
      * @param array $options
      * @return Illuminate\Support\Collection
      */
-    protected function createCartItem(string $name, string $price, string $quantity): Collection
+    protected function createCartItem(string $name, string $price, string $quantity,$session_name= 'shopping-cart'): Collection
     {
         $price = intval($price);
         $quantity = intval($quantity);
@@ -170,4 +168,6 @@ class CartService {
             'quantity' => $quantity,
         ]);
     }
+
+
 }
