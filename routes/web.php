@@ -6,6 +6,7 @@ use App\Livewire\Customer\ShowList as CustomerShowList;
 use App\Livewire\Product\ShowList as ProductShowList;
 use App\Livewire\Product\CreateNew as ProductCreateNew;
 use App\Livewire\Order\ShowList as OrderShowList;
+use App\Livewire\Order\CreateNew as OrderCreateNew;
 
 
 Route::get('/', function () {
@@ -29,11 +30,11 @@ Route::get('/product/edit/{id}', ProductCreateNew::class)
     ->name('product_edit');
 
 
+Route::get('/order/edit/{id}', OrderShowList::class)
+    ->name('order_edit');
+
 Route::get('/order/list', OrderShowList::class)
     ->name('order_list');
 
-Route::get('/order/list', OrderShowList::class)
+Route::get('/order/create', OrderCreateNew::class)
     ->name('order_create');
-
-Route::get('/order/list/{id}', OrderShowList::class)
-    ->name('order_edit');

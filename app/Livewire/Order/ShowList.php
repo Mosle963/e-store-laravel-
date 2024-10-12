@@ -25,7 +25,7 @@ class ShowList extends Component
     public function render()
     {
         return view('livewire.order.show-list')
-        ->with('oreders' , Order::with('customer')->orderBy('id', 'desc')->paginate(15))
+        ->with('orders' , Order::with('customer')->orderBy('id', 'desc')->paginate(15))
         ->layout('layouts.app')
         ->title('Orders');
     }

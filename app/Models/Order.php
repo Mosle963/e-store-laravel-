@@ -5,6 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Order_item;
+use App\Models\Customer;
+use Carbon\Carbon;
+use Illuminate\Support\Str;
+
 class Order extends Model
 {
     use HasFactory;
@@ -25,9 +29,14 @@ class Order extends Model
         return $this->hasMany(Order_item::class);
     }
 
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
+
     public function updateTotalAmount()
     {
-        $this->total_amount = $this->orderItems->sum(function ($item) {
+        $this->total_amount = $this->order_items->sum(function ($item) {
             return $item->unit_price * $item->quantity;
         });
         $this->save();

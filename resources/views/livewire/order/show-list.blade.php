@@ -24,7 +24,7 @@
             <td>{{$order->order_date}}</td>
             <td>{{$order->order_number}}</td>
             <td>{{$order->customer->id}}</td>
-            <td>{{$order->customer->first_name.$order->customer->last_name}}</td>
+            <td>{{$order->customer->first_name.' '.$order->customer->last_name}}</td>
             <td>{{$order->total_amount}}</td>
             <td class="text-start">
             <div class="btn-group" role="group" aria-label="Basic mixed styles example">

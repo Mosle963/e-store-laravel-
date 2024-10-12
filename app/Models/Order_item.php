@@ -9,7 +9,10 @@ class Order_item extends Model
 {
     use HasFactory;
     protected $fillable=[
-        'customer_id'
+        'order_id',
+        'product_id',
+        'unit_price',
+        'quantity'
     ];
 
     protected static function booted()
