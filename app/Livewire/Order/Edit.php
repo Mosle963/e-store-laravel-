@@ -25,7 +25,7 @@ class Edit extends Component
     public $customers;
     public $product_id = null;
     public $quantity = 1;
-    public $session_name;
+
 
 
 
@@ -41,7 +41,7 @@ class Edit extends Component
                     $item->product_name,
                     $item->unit_price,
                     $item->quantity,
-                    $this->session_name);
+                    );
         }
 
         $ret  = array_flip($old_items_product_ids);
@@ -56,8 +56,7 @@ class Edit extends Component
      */
     public function mount($id=null)
     {
-        $this->session_name = 'edit'.$id;
-        $this->startsession('edit'.$id);
+        $this->clearsession();
         $passed_order = Order::with('order_items')->find($id);
         $this->customer_id = $passed_order->customer_id;
         $this->order_date = $passed_order->order_date;
@@ -75,9 +74,10 @@ class Edit extends Component
 
     public function closeOrder()
     {
-        Cart::clear($this->session_name);
+        Cart::clear();
         return redirect()->route('order_list');
     }
+
     public function save()
     {
 
@@ -135,7 +135,7 @@ class Edit extends Component
             if($order_item != null)
                 {$order_item->delete();}
         }
-        Cart::clear($this->session_name);
+        Cart::clear();
         return redirect()->route('order_list');
     }
     public function render()
@@ -170,7 +170,7 @@ class Edit extends Component
         );
 
         $product = Product::find($validated['product_id']);
-        Cart::add($product->id, $product->product_name, $product->unit_price, $validated['quantity'],$this->session_name);
+        Cart::add($product->id, $product->product_name, $product->unit_price, $validated['quantity'],);
         $this->updateCart();
         $this->product_id = null;
         $this->quantity =1;
@@ -187,7 +187,7 @@ class Edit extends Component
         if(! $this->todelete->has($id))
             $this->todelete->put($id,'true');
 
-        Cart::remove($id,$this->session_name);
+        Cart::remove($id);
         $this->updateCart();
     }
 
@@ -198,14 +198,14 @@ class Edit extends Component
      */
     public function clearCart(): void
     {
-        Cart::clear($this->session_name);
+        Cart::clear();
         $this->add_old_items($this->order_id);
         $this->updateCart();
     }
 
-    public function startsession($session_name): void
+    public function clearsession(): void
     {
-        Cart::clear($session_name);
+        Cart::clear();
     }
     /**
      * Updates a cart item.
@@ -216,7 +216,7 @@ class Edit extends Component
      */
     public function updateCartItem(string $id, string $action): void
     {
-        Cart::update($id, $action,$this->session_name);
+        Cart::update($id, $action);
         $this->updateCart();
     }
     /**
@@ -226,7 +226,7 @@ class Edit extends Component
      */
     public function updateCart()
     {
-        $this->total = Cart::total($this->session_name);
-        $this->content = Cart::content($this->session_name);
+        $this->total = Cart::total();
+        $this->content = Cart::content();
     }
 }

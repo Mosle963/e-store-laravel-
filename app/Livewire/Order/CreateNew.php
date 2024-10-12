@@ -27,6 +27,7 @@ class CreateNew extends Component
      */
     public function mount()
     {
+        $this->clearsession();
         $this->products = Product::all();
         $this->customers = Customer::all();
         $this->updateCart();
@@ -124,6 +125,10 @@ class CreateNew extends Component
         $this->updateCart();
     }
 
+    public function clearsession(): void
+    {
+        Cart::clear();
+    }
     /**
      * Updates a cart item.
      *

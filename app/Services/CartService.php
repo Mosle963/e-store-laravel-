@@ -30,11 +30,11 @@ class CartService {
      * @param array $options
      * @return void
      */
-    public function add($id, $name, $price, $quantity, $session_name = 'shopping-cart'): void
+    public function add($id, $name, $price, $quantity): void
     {
-        $cartItem = $this->createCartItem($name, $price, $quantity,$session_name);
+        $cartItem = $this->createCartItem($name, $price, $quantity);
 
-        $content = $this->getContent($session_name);
+        $content = $this->getContent();
 
         if ($content->has($id)) {
             $cartItem->put('quantity', $content->get($id)->get('quantity') + $quantity);
@@ -42,7 +42,7 @@ class CartService {
 
         $content->put($id, $cartItem);
 
-        $this->session->put($session_name, $content);
+        $this->session->put('shopping-cart', $content);
     }
 
     /**
@@ -52,9 +52,9 @@ class CartService {
      * @param string $action
      * @return void
      */
-    public function update(string $id, string $action, $session_name= 'shopping-cart' ): void
+    public function update(string $id, string $action): void
     {
-        $content = $this->getContent($session_name);
+        $content = $this->getContent();
 
         if ($content->has($id)) {
             $cartItem = $content->get($id);
@@ -76,7 +76,7 @@ class CartService {
 
             $content->put($id, $cartItem);
 
-            $this->session->put($session_name, $content);
+            $this->session->put('shopping-cart', $content);
         }
     }
 
@@ -86,12 +86,12 @@ class CartService {
      * @param string $id
      * @return void
      */
-    public function remove(string $id,$session_name= 'shopping-cart'): void
+    public function remove(string $id): void
     {
-        $content = $this->getContent($session_name);
+        $content = $this->getContent();
 
         if ($content->has($id)) {
-            $this->session->put($session_name, $content->except($id));
+            $this->session->put('shopping-cart', $content->except($id));
         }
     }
 
@@ -100,9 +100,9 @@ class CartService {
      *
      * @return void
      */
-    public function clear($session_name= 'shopping-cart'): void
+    public function clear(): void
     {
-        $this->session->forget($session_name);
+        $this->session->forget('shopping-cart');
     }
 
     /**
@@ -110,9 +110,9 @@ class CartService {
      *
      * @return Illuminate\Support\Collection
      */
-    public function content($session_name= 'shopping-cart'): Collection
+    public function content(): Collection
     {
-        return is_null($this->session->get($session_name)) ? collect([]) : $this->session->get($session_name);
+        return is_null($this->session->get('shopping-cart')) ? collect([]) : $this->session->get('shopping-cart');
     }
 
     /**
@@ -120,9 +120,9 @@ class CartService {
      *
      * @return string
      */
-    public function total($session_name= 'shopping-cart'): string
+    public function total(): string
     {
-        $content = $this->getContent($session_name);
+        $content = $this->getContent();
 
         $total = $content->reduce(function ($total, $item) {
             return $total += $item->get('price') * $item->get('quantity');
@@ -139,9 +139,9 @@ class CartService {
      *
      * @return Illuminate\Support\Collection
      */
-    protected function getContent($session_name= 'shopping-cart'): Collection
+    protected function getContent(): Collection
     {
-        return $this->session->has($session_name) ? $this->session->get($session_name) : collect([]);
+        return $this->session->has('shopping-cart') ? $this->session->get('shopping-cart') : collect([]);
     }
 
     /**
@@ -153,7 +153,7 @@ class CartService {
      * @param array $options
      * @return Illuminate\Support\Collection
      */
-    protected function createCartItem(string $name, string $price, string $quantity,$session_name= 'shopping-cart'): Collection
+    protected function createCartItem(string $name, string $price, string $quantity,): Collection
     {
         $price = intval($price);
         $quantity = intval($quantity);
