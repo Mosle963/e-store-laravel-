@@ -1,10 +1,10 @@
 <?php
 
+use App\Models\Order;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\Order;
-use App\Models\Product;
+
 return new class extends Migration
 {
     /**
@@ -15,9 +15,9 @@ return new class extends Migration
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Order::class)
-              ->constrained()
-              ->onDelete('cascade');
-            $table->foreignIdFor(Product::class);
+                ->constrained()
+                ->onDelete('cascade');
+            $table->unsignedBigInteger('product_id');
             $table->string('product_name');
             $table->integer('unit_price')->default(0);
             $table->integer('quantity');

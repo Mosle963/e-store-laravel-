@@ -1,9 +1,10 @@
 <?php
 
+use App\Models\Supplier;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\Supplier;
+
 return new class extends Migration
 {
     /**
@@ -15,8 +16,8 @@ return new class extends Migration
             $table->id();
             $table->string('product_name');
             $table->foreignIdFor(Supplier::class)
-              ->constrained()
-              ->onDelete('cascade');
+                ->constrained()
+                ->onDelete('cascade');
             $table->integer('unit_price');
             $table->timestamps();
         });

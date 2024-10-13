@@ -1,0 +1,17 @@
+header {
+    background-color: rgb(248, 249, 250);
+}
+
+.nav-link {
+    font-size: large;
+    font-style: bold;
+}
+
+body {
+    min-height: 100vh;
+}
+
+footer {
+    position: sticky;
+    top: 100%;
+}

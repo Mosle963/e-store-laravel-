@@ -1,9 +1,10 @@
 <?php
 
+use App\Models\Customer;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\Customer;
+
 return new class extends Migration
 {
     /**
@@ -16,8 +17,8 @@ return new class extends Migration
             $table->date('order_date');
             $table->string('order_number');
             $table->foreignIdFor(Customer::class)
-              ->constrained()
-              ->onDelete('cascade');
+                ->constrained()
+                ->onDelete('cascade');
             $table->bigInteger('total_amount')->default(0);
             $table->timestamps();
         });

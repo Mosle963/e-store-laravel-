@@ -4,17 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Product;
+
 class Supplier extends Model
 {
     use HasFactory;
-    protected $fillable=[
+
+    protected $fillable = [
         'company_name',
         'contact_name',
         'city',
         'country',
         'phone',
-        'fax'
+        'fax',
     ];
 
     public function products()

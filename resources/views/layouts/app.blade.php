@@ -3,19 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-    rel="stylesheet">
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     {{$extra_style ?? ''}}
     <title>e-store | {{$title ?? 'home'}}</title>
     @livewireStyles
+    <style>
+
+    </style>
 </head>
 <body>
-    <header class="bg-primary text-white text-center py-3">
-        <h1>{{$h1 ?? 'E-store'}}</h1>
-        @include('layouts/navbar')
-    </header>
+    @include('layouts.header')
+
+
+
     <main class="container mx-auto mt-5">
-    {{$slot ?? 'welcome'}}
+    {{$slot ?? ''}}
+    @yield('main')
     </main>
 
 
@@ -26,7 +30,8 @@
     </footer>
     @livewireScripts
     {{$extra_script ?? ''}}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js">
-    </script>
+    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+
 </body>
 </html>
+
