@@ -26,6 +26,9 @@ use Livewire\Component;
  */
 class CreateNew extends Component
 {
+
+    public $edit_mode=False;
+    
     /**
      * Customer ID.
      */

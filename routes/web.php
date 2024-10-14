@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\ProductController;
 use App\Livewire\Customer\ShowList as CustomerShowList;
 use App\Livewire\Order\CreateNew as OrderCreateNew;
 use App\Livewire\Order\Edit as OrderEdit;
@@ -37,3 +38,15 @@ Route::get('/order/create', OrderCreateNew::class)
     ->name('order_create');
 Route::get('/order/edit/{id}', OrderEdit::class)
     ->name('order_edit');
+
+
+//product api routes
+Route::prefix('api')->group(function () {
+    Route::get('/products', [ProductController::class, 'index']);
+});
+
+
+//documentation route
+Route::get('/doc', function () {
+    return redirect('/docs/index.html');
+});

@@ -1,5 +1,9 @@
 <x-slot:h1>
+    @if($edit_mode)
+    Edit Order
+    @else
     Create Order
+    @endif
     </x-slot>
     <x-slot:extra_style>
         <link href="{{ asset('css/order-create-new.css') }}" rel="stylesheet">

@@ -27,6 +27,8 @@ use Livewire\Component;
  */
 class Edit extends Component
 {
+    public $edit_mode=True;
+    
     /** @var \Illuminate\Support\Collection Items to be deleted from the order */
     public $todelete;
 
